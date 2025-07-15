@@ -1,38 +1,18 @@
-from module.library import Library
-from module.book import Book, FictionBook
-import os
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
-library = Library()
+db = SQLAlchemy()
 
-def main():
-    choice = 'y'
-    while choice != 'n':
-        interface = 'Library System \n(a) - Add book\n(f) - Add fiction book\n(r) - Remove book\n(l) - List books\n(e) - Exit\n'
-        print(interface)
-        choice = input('Enter selection: ')
+def create_app():
+    app = Flask(__name__, template_folder='templates', static_folder='static')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./library.db'
 
-        match choice:
-            case 'a':
-                title = input('Enter book title: ')
-                author = input('Enter book author: ')
-                book = Book(title, author)
-                library.add_book(book)
-            case 'f':
-                title = input('Enter book title: ')
-                author = input('Enter book author: ')
-                book = FictionBook(title, author)
-                library.add_book(book)
-            case 'r':
-                title = input('Enter book title to remove: ')
-                library.remove_book(title)
-            case 'l':
-                library.list_books()
-            case 'e':
-                return
+    db.init_app(app)
 
-        choice = input('Continue? ')
-        while choice != 'y':
-            choice = input('Continue? ')
-        
-if __name__ == '__main__':
-    main()
+    from app.library.routes import library
+    app.register_blueprint(library, url_prefix=('/'))
+
+    migrate = Migrate(app, db)
+
+    return app
