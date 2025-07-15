@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}
+    Library System
+{% endblock %}
+{% block content %}
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen hidden">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Loading your library...</div>
+    </div>
+
+    <!-- Error Screen -->
+    <div id="errorScreen" class="error-screen hidden">
+        <div class="error-icon">⚠️</div>
+        <div class="error-text">Oops! Something went wrong while loading your library.</div>
+        <button class="retry-btn" onclick="retryLoading()">Try Again</button>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <div class="container">
+        <!-- Main Panel -->
+        <div class="main-panel">
+            <h1 class="main-title">📚 Game Library System</h1>
+            
+            <div class="bookshelf">
+                <div class="shelf">
+                    <div id="booksContainer" class="books-container">
+                        <!-- Books will be added here dynamically -->
+                    </div>
+                </div>
+                <div class="shelf">
+                    <div class="books-container">
+                        <!-- Second shelf for more books -->
+                    </div>
+                </div>
+                <div class="shelf">
+                    <div class="books-container">
+                        <!-- Third shelf for more books -->
+                    </div>
+                </div>
+                
+                <div id="emptyMessage" class="empty-shelf hidden">
+                    Your library is empty. Add some books to get started! 📖
+                </div>
+            </div>
+        </div>
+
+        <!-- Side Panel -->
+        <div class="side-panel">
+            <h2 class="side-title">📋 Library Management</h2>
+            
+            <!-- Add Book Form -->
+            <div class="add-book-form">
+                <div class="form-group">
+                    <label for="bookTitle">Book Title</label>
+                    <input type="text" id="bookTitle" placeholder="Enter book title">
+                </div>
+                <div class="form-group">
+                    <label for="bookAuthor">Author</label>
+                    <input type="text" id="bookAuthor" placeholder="Enter author name">
+                </div>
+                <button class="btn" onclick="addBook()">Add Book to Library</button>
+            </div>
+
+            <!-- Books Table -->
+            <div class="books-table">
+                <div class="table-header">
+                    Current Library Collection
+                </div>
+                <div id="booksList">
+                    <div id="emptyList" class="book-item hidden" style="text-align: center; color: #999; padding: 30px;">
+                        No books in your library yet
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
