@@ -1,4 +1,4 @@
-# My Python Learning Projecs
+# My Python Learning Projects
 This repository contains all the project I created when learning python concepts and frameworks.
 
 ## List of Table
