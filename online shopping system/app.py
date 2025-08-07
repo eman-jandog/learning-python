@@ -1,8 +1,3 @@
-class User:
-    def __init__(self, name, cart):
-        self.name = name
-        self.cart = cart
-
 class Products:
     def __init__(self):
         self.products = []
@@ -16,6 +11,7 @@ class Products:
             for product in self.products:
                 products += f'{product.name} - P{product.price} - x{product.quantity}\n'
             display += products
+        return display
     
     def add(self, item):
         if isinstance(item, ProductItem):
@@ -24,7 +20,6 @@ class Products:
             return "Added Succesfully"
         else:
             raise ValueError("item is not a product")
-
 
 class ProductItem:
     def __init__(self, name, price, quantity):
@@ -50,6 +45,14 @@ class Cart:
             return "Added Succesfully"
         else:
             raise ValueError("item is not a product")
+        
+class User:
+    def __init__(self, name):
+        self.name = name
+        self.cart = Cart()
+
+    def __str__(self):
+        return f"Name: {self.name} \nCart: {self.cart}"
     
 
 
