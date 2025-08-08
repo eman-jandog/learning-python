@@ -1,3 +1,6 @@
+import json
+import os
+
 class ProductItem:
     def __init__(self, name, price, quantity):
         self.name = name
@@ -11,7 +14,6 @@ class ProductItem:
         for key, item in self.__dict__.items():
             self.__dict__[key] = input(f'{key[0].upper() + key[1:]} (current: {item}): ') or item
 
-    
 class Products:
     def __init__(self):
         self.products = []
@@ -33,15 +35,13 @@ class Products:
                 return product
         return None
     
-    def add(self, item):
-        if not isinstance(item, ProductItem):
-            raise ValueError("item is not a product")
+    def add(self, name, price, quantity):
+        if self.get(name):
+            return "Item is already exists in the list."
         
-        elif self.get(item.name):
-            return "Item is already exists in the list."        
+        item = ProductItem(name, price, quantity)
         self.products.append(item)
         return "Added Succesfully"
-            
         
     def update(self, name):
         product = self.get(name)
@@ -63,7 +63,6 @@ class CartItem:
 
     def update(self):
         self.quantity = input(f'Quantity (current: {self.quantity}): ') or self.quantity
-    
 
 class Cart:
     def __init__(self):
@@ -98,7 +97,7 @@ class Cart:
             self.cart.remove(item)
             return "Item is remove from cart"
         return "Invalid item."
-        
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -106,11 +105,23 @@ class User:
 
     def __str__(self):
         return f"Name: {self.name} \nCart: {self.cart}"
-    
 
 if __name__ == '__main__':
     # Populate products
+    dirname = os.path.dirname(__file__)
+    file = os.path.join(dirname, 'products.json')
+    with open(file, 'r') as file:
+        data = json.load(file)
+
     product_listing = Products()
-    user = input('Create User: ') or 'User1'
-    
+    for item in data:
+        product_listing.add(
+            item['product'],
+            item['price'],
+            item['quantity']
+        )
+
+    print(product_listing)
+    product_listing.remove('White Rice')
+    print(product_listing)
     
