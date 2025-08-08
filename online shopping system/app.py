@@ -25,7 +25,7 @@ class Products:
         else:
             products = ''
             for product in self.products:
-                products += str(product)
+                products += f'{product}'
             display += products
         return display
         
@@ -37,8 +37,7 @@ class Products:
     
     def add(self, name, price, quantity):
         if self.get(name):
-            return "Item is already exists in the list."
-        
+            return "Item is already exists in the list."        
         item = ProductItem(name, price, quantity)
         self.products.append(item)
         return "Added Succesfully"
@@ -61,12 +60,21 @@ class CartItem:
         self.product = product
         self.quantity = quantity
 
+    def __str__(self):
+        return f'{self.product.name} - P{self.product.price} - x{self.quantity}'
+
     def update(self):
         self.quantity = input(f'Quantity (current: {self.quantity}): ') or self.quantity
 
 class Cart:
     def __init__(self):
         self.cart = []
+
+    def __str__(self):
+        cart = ''
+        for item in self.cart:
+            cart += f'{item}\n'
+        return cart
 
     def get(self, name):
         for item in self.cart:
@@ -89,7 +97,7 @@ class Cart:
         item = self.get(name)
         if not item:
             return 'Invalid item.'
-        item.update
+        item.update()
             
     def remove(self, name):
         item = self.get(name)
@@ -122,6 +130,24 @@ if __name__ == '__main__':
         )
 
     print(product_listing)
-    product_listing.remove('White Rice')
-    print(product_listing)
+
+    # Create user
+    user = User('User1')
     
+    print(user)
+
+    granola = product_listing.get('Granola Cereal')
+    miso = product_listing.get('Miso Soup Starter')
+    tortilla = product_listing.get('Tortilla Chips')
+
+    user.cart.add(miso, 3)
+    user.cart.add(tortilla, 5)
+    user.cart.add(granola)
+    user.cart.add(miso, 3)
+
+    print(user.cart)
+
+    user.cart.update('Miso Soup Starter')
+    print(user.cart)
+    user.cart.remove('Miso Soup Starter')
+    print(user.cart)
